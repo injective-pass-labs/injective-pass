@@ -28,6 +28,13 @@ export type DomainAvailability = {
     ownerAddress: string | null;
 };
 
+export type DomainRegisterResp = {
+    domain: string;
+    tokenId: string;
+    txHash: string;
+    registeredAt?: string;
+};
+
 export type SocialInteractionResp = {
     transactionHash: string;
     rewardTickets: number;

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import { NfcApi } from '@/lib/api';
+import type { DomainRegisterResp } from '@/types/nfc';
 
 export default function DomainRegisterForm() {
     const [uid, setUid] = useState('');
@@ -13,10 +14,11 @@ export default function DomainRegisterForm() {
         setMsg(null);
         setLoading(true);
         try {
-            const res = await NfcApi.domainRegister({ uid, domainPrefix: prefix });
+            const res = (await NfcApi.domainRegister({ uid, domainPrefix: prefix })) as DomainRegisterResp;
             setMsg(`注册成功: ${res.domain}`);
-        } catch (err: any) {
-            setMsg(err?.message || '注册失败');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            setMsg(msg || '注册失败');
         } finally {
             setLoading(false);
         }

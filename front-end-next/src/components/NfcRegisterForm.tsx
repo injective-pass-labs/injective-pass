@@ -16,8 +16,9 @@ export default function NfcRegisterForm({ onRegistered }: { onRegistered?: (res:
         try {
             const res = await NfcApi.register({ uid, nickname: nickname || undefined });
             onRegistered?.(res as WalletResponse);
-        } catch (err: any) {
-            setError(err?.message || '注册失败');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            setError(msg || '注册失败');
         } finally {
             setLoading(false);
         }

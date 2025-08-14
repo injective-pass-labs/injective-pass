@@ -16,8 +16,9 @@ export default function DrawWithTicketsForm({ onDrawn }: { onDrawn?: (cat: CatNF
         try {
             const res = await NfcApi.drawWithTickets({ nfcUid, catName });
             onDrawn?.(res as CatNFT);
-        } catch (err: any) {
-            setError(err?.message || '抽卡失败');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            setError(msg || '抽卡失败');
         } finally {
             setLoading(false);
         }

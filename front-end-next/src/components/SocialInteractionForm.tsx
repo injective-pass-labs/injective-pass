@@ -16,8 +16,9 @@ export default function SocialInteractionForm({ onSuccess }: { onSuccess?: (res:
         try {
             const res = await NfcApi.socialInteraction({ myNFC, otherNFC });
             onSuccess?.(res as SocialInteractionResp);
-        } catch (err: any) {
-            setError(err?.message || '互动失败');
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            setError(msg || '互动失败');
         } finally {
             setLoading(false);
         }
